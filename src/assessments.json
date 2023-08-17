@@ -1,0 +1,65 @@
+{
+  "assessments": {
+    "1": [
+      "In the last week, <b>how well could you read words?</b>",
+      "In the last week, <b>how well could you read a sentence?</b>",
+      "In the last week, <b>how well could you read multiple paragraphs?</b>",
+      "In the last week, <b>how well could you understand calendars, recipes or menus?</b>",
+      "In the last week, <b>how well could you read out loud?</b>"
+    ],
+    "2": [
+      "In the last week, <b>how well could you copy written words?</b>",
+      "In the last week, <b>how well could you spell words?</b>",
+      "In the last week, <b>how well could you write a sentence?</b>",
+      "In the last week, <b>how well could you write a paragraph?</b>",
+      "In the last week, <b>how well could you fill out a form?</b>",
+      "In the last week, <b>how well could you write under time pressure?</b>"
+    ],
+    "3": [
+      "In the last week, <b>how well could you think of the right word?</b>",
+      "In the last week, <b>how well could you speak words aloud?</b>",
+      "In the last week, <b>how well could you speak numbers aloud?</b>",
+      "In the last week, <b>how well could you speak in sentences?</b>",
+      "In the last week, <b>how well could you speak clearly?</b>"
+    ],
+    "4": [
+      "In the last week, <b>how well could you understand single words?</b>",
+      "In the last week, <b>how well could you understand sentences?</b>",
+      "In the last week, <b>how well could you understand spoken instructions?</b>",
+      "In the last week, <b>how well could you understand conversations or stories?</b>"
+    ],
+    "5": [
+      "In the last week, <b>how well could you focus on a task for a few seconds?</b>",
+      "In the last week, <b>how well could you focus on a task for a few minutes?</b>",
+      "In the last week, <b>how well could you focus when there was a lot to look at?</b>",
+      "In the last week, <b>how well could you focus in a noisy room?</b>",
+      "In the last week, <b>how well could you focus on more than one thing at a time?</b>",
+      "In the last week, <b>how well could you focus after an interruption?</b>"
+    ],
+    "6": [
+      "In the last week, <b>how well could you remember words you just heard?</b>",
+      "In the last week, <b>how well could you remember instructions you just heard?</b>",
+      "In the last week, <b>how well could you remember a story you just heard?</b>",
+      "In the last week, <b>how well could you remember a picture you just saw?</b>"
+    ],
+    "7": [
+      "In the last week, <b>how well could you see things on your left side?</b>",
+      "In the last week, <b>how well could you see things on your right side?</b>",
+      "In the last week, <b>how well could you find something right in front of you?</b>",
+      "In the last week, <b>how well could you tell time?</b>",
+      "In the last week, <b>how well could you understand a calendar?</b>"
+    ],
+    "8": [
+      "In the last week, <b>how well could you add or subtract numbers?</b>",
+      "In the last week, <b>how well could you multiply or divide numbers?</b>",
+      "In the last week, <b>how well could you count money?</b>",
+      "In the last week, <b>how well could you solve everyday math problems?</b>",
+      "In the last week, <b>how well could you manage money?</b>"
+    ],
+    "9": [
+      "In the last week, <b>how well could you arrange things alphabetically?</b>",
+      "In the last week, <b>how well could you plan the steps in a task?</b>",
+      "In the last week, <b>how well could you read a map or diagram?</b> "
+    ]
+  }
+}

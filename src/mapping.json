@@ -1,0 +1,160 @@
+{
+    "skills": [
+        {
+            "id": 1,
+            "description": "Reading"
+        },
+        {
+            "id": 2,
+            "description": "Writing"
+        },
+        {
+            "id": 3,
+            "description": "Speaking"
+        },
+        {
+            "id": 4,
+            "description": "Listening & understanding"
+        },
+        {
+            "id": 5,
+            "description": "Staying focused"
+        },
+        {
+            "id": 6,
+            "description": "Remembering"
+        },
+        {
+            "id": 7,
+            "description": "Understanding what you see"
+        },
+        {
+            "id": 8,
+            "description": "Using math & numbers"
+        },
+        {
+            "id": 9,
+            "description": "Planning & organizing"
+        }
+    ],
+
+    "domains": [
+        {
+            "id": 1,
+            "domain_name": "Analytical",
+            "layman_name": "Analytical Reasoning",
+            "layman_description": "Use problem solving to analyze information, recognize patterns, and draw conclusions"
+        },
+        {
+            "id": 2,
+            "domain_name": "Arithmetic",
+            "layman_name": "Arithmetic",
+            "layman_description": "Solve math problems"
+        },
+        {
+            "id": 3,
+            "domain_name": "Attention",
+            "layman_name": "Attention",
+            "layman_description": " Attend to visual and spoken information (e.g. paying attention for a period of time; ignoring distractions; switching attention between different tasks; paying attention to two tasks at once)"
+        },
+        {
+            "id": 4,
+            "domain_name": "AuditoryComp",
+            "layman_name": "Auditory Comprehension",
+            "layman_description": "Understand spoken information"
+        },
+        {
+            "id": 5,
+            "domain_name": "AuditoryMemory",
+            "layman_name": "Auditory Memory",
+            "layman_description": "Remember spoken information"
+        },
+        {
+            "id": 6,
+            "domain_name": "Naming",
+            "layman_name": "Word Retrieval",
+            "layman_description": "Identify and name words"
+        },
+        {
+            "id": 7,
+            "domain_name": "PhonologicalProc",
+            "layman_name": "Phonlogical Processing",
+            "layman_description": "Process sounds in language as foundational skills for listening, speaking, reading, and writing"
+        },
+        {
+            "id": 8,
+            "domain_name": "Production",
+            "layman_name": "Speaking",
+            "layman_description": "Speak words and sentences"
+        },
+        {
+            "id": 9,
+            "domain_name": "Quantitative",
+            "layman_name": "Quantitative Reasoning",
+            "layman_description": "Solve math problems in everyday life"
+        },
+        {
+            "id": 10,
+            "domain_name": "Reading",
+            "layman_name": "Reading",
+            "layman_description": "Read words, sentences, paragraphs, and pages of text"
+        },
+        {
+            "id": 12,
+            "domain_name": "VisualMemory",
+            "layman_name": "Visual Memory",
+            "layman_description": "Remember pictures, faces, written words, and visual patterns"
+        },
+        {
+            "id": 13,
+            "domain_name": "VisuoSpatial",
+            "layman_name": "Visuospatial Processing",
+            "layman_description": "Interpret visual information and spatial relationships of objects"
+        },
+        {
+            "id": 14,
+            "domain_name": "Writing",
+            "layman_name": "Writing",
+            "layman_description": "Spell words"
+        }
+    ],
+
+    "skills_to_domains": [
+        {
+            "skill_id": 1,
+            "domain_id": [1, 10]
+        },
+        {
+            "skill_id": 2,
+            "domain_id": [6, 14]
+        },
+        {
+            "skill_id": 3,
+            "domain_id": [6, 7, 8]
+        },
+        {
+            "skill_id": 4,
+            "domain_id": [4]
+        },
+        {
+            "skill_id": 5, 
+            "domain_id": [3]
+        },
+        {
+            "skill_id": 6,
+            "domain_id": [5]
+        },
+        {
+            "skill_id": 7,
+            "domain_id": [1, 9, 12, 13]
+        },
+        {
+            "skill_id": 8,
+            "domain_id": [2, 9]
+        },
+        {
+            "skill_id": 9,
+            "domain_id": [1, 4, 5, 6, 9, 13]
+        }
+    ]
+}
