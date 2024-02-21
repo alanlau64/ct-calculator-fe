@@ -2,7 +2,6 @@ import { reactive } from 'vue'
 
 interface Store {
   age?: number,
-  sex?: string,
   conditionSince?: number,
   skill: number,
   permutation: number,

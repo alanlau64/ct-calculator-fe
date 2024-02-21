@@ -4,14 +4,7 @@
 
   const props = defineProps(['skill']);
   const imgPath = ref("./src/assets/skills/skill" + props.skill.id + ".png");
-  const selectedBox = ref<number | null>(null);
   const boxGroupName = 'skillBoxGroup';
-
-  watch(selectedBox, (newVal) => {
-    if (newVal === props.skill.id) {
-      store.skill = props.skill.id
-    }
-  });
 
 </script>
 
@@ -22,8 +15,9 @@
     <input 
       type="radio" 
       :value="props.skill.id" 
-      v-model="selectedBox"
-      :name="boxGroupName" />
+      v-model="store.skill"
+      :name="boxGroupName" 
+      :disabled="skill.id !== 8"/>
   </div>
 </template>
 

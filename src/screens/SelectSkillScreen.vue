@@ -1,5 +1,7 @@
 <script setup lang="ts">
+  import { defineEmits } from 'vue';
   import { skills } from '../mapping.json'
+  import { store } from '../store'
   import SkillComponent from '../components/SkillComponent.vue';
 </script>
 
@@ -16,7 +18,7 @@
       <button @click="$emit('previous-screen')">Previous</button>
     </div>
     <div>
-      <button @click="$emit('next-screen')">Next</button>
+      <button @click="$emit('next-screen')" :disabled="store.skill !== 0">Next</button>
     </div>
   </div>
 </template>

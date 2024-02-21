@@ -38,7 +38,7 @@
       </select>
       times per week and
       <input v-model="store.selectedAmount" type="number" min="0" max="3600">
-      minutes per week
+      minutes per day
     </span>
   </div>
   <div>

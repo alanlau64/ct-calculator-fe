@@ -22,15 +22,6 @@ const conditionMap: ConditionMap = {
     <p>Your age: </p>
     <input v-model="store.age" type="number" min="0" max="120" placeholder=0>
   </div>
-  <div class="sex">
-    <p>Your sex: </p>
-    <select v-model="store.sex">
-      <option disabled selected value="">Select One</option>
-      <option>Male</option>
-      <option>Female</option>
-      <option>Other</option>
-    </select>
-  </div>
   <div class="conditon">
     <p>How long ago was the first condition diagnosed?</p>
     <select v-model.number="store.conditionSince">
