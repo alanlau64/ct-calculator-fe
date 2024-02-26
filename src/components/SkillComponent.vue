@@ -3,7 +3,7 @@
   import { store } from '../store'
 
   const props = defineProps(['skill']);
-  const imgPath = ref(`./src/assets/skills/skill${props.skill.id}.png`);
+  const imgPath = ref(`https://ct-calculator-fe.s3.us-east-2.amazonaws.com/assets/skills/skill${props.skill.id}.png`);
   const boxGroupName = 'skillBoxGroup';
 
 </script>
