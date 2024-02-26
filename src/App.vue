@@ -19,6 +19,6 @@
   <DemographicScreen v-else-if="showScreen === 1" @next-screen="showScreen++"></DemographicScreen>
   <SelectSkillScreen v-else-if="showScreen === 2" @previous-screen="showScreen--" @next-screen="showScreen++"></SelectSkillScreen>
   <SubjectiveAssessmentScreen v-else-if="showScreen === 3" @previous-screen="showScreen--" @next-screen="showScreen++"></SubjectiveAssessmentScreen>
-  <ObjectiveAssessmentScreen v-else-if="showScreen === 4" @previous-screen="showScreen--" @next-screen="showScreen++"></ObjectiveAssessmentScreen>
+  <ObjectiveAssessmentScreen v-else-if="showScreen === 4" @next-screen="showScreen++"></ObjectiveAssessmentScreen>
   <PredictionScreen v-else-if="showScreen === 5" @start-over="showScreen = 0"></PredictionScreen>
 </template>

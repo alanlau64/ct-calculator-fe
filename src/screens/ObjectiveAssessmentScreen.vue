@@ -1,19 +1,113 @@
 <script setup lang="ts">
-import { store } from "../store"
+  import { store } from "../store"
+  import { ref, onMounted, computed } from 'vue'
+  import type { Ref } from 'vue'
+  import CurrencyTaskComponent from '../components/taskComponents/CurrencyTaskComponent.vue'
+  import ClockTaskComponent from '../components/taskComponents/ClockTaskComponent.vue'
+  import MathWordProblemTaskComponent from '../components/taskComponents/MathWordProblemTaskComponent.vue'
+
+  const emit = defineEmits(['next-screen'])
+
+  interface Task {
+    [key: string]: any;
+    task_type_id: number;
+  }
+
+  interface TaskComponentMap {
+    [key: number]: any
+  }
+
+  interface AccuracyType {
+    [key: number]: {[key: number]: number[]}
+  }
+
+  const base_url = ref('')
+  const tasks: Ref<Task[]> = ref([])
+  const status = ref("start")
+  const error = ref('')
+  const completed = ref(false)
+
+  const fetchData = async () => {
+    status.value = "loading";
+    try {
+      const response = await fetch('https://ts0100n96d.execute-api.us-east-2.amazonaws.com/rss?permutation_id=' + store.permutation)
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json()
+      base_url.value = data.baseUrl
+      tasks.value = data.tasks
+      
+    } catch (err) {
+      error.value = String(err);
+      status.value = 'error'
+    } finally {
+      status.value = "ready"
+    }
+  }
+
+  onMounted(() => {
+    fetchData();
+  })
+
+  const taskComponentMap: TaskComponentMap = {
+    43: CurrencyTaskComponent,
+    133: ClockTaskComponent,
+    15: MathWordProblemTaskComponent
+  };
+
+  const curTaskTypeIdx = ref(0);
+  const curTaskIdx = ref(0);
+
+  const curTaskType = computed(() => tasks.value[curTaskTypeIdx.value] as Task)
+  const curTask = computed(() => tasks.value[curTaskTypeIdx.value].tasks[curTaskIdx.value])
+  const curTaskKey = computed(() => `${tasks.value[curTaskTypeIdx.value].task_type_id}-${curTaskIdx.value}`)
+
+  const curTaskComponent = computed(() => {
+    const curTaskTypeId = curTaskType.value.task_type_id;
+    return taskComponentMap[curTaskTypeId];
+  })
+
+  const accuracies: Ref<AccuracyType> = ref({})
+  const finishTask = (taskTypeId: number, taskLevel: number, accuracy: any) => {
+    if (!accuracies.value[taskTypeId]) {
+      accuracies.value[taskTypeId] = {};
+    }
+    if (!accuracies.value[taskTypeId][taskLevel]) {
+      accuracies.value[taskTypeId][taskLevel] = []
+    }
+    accuracies.value[taskTypeId][taskLevel].push(accuracy);
+
+    if (curTaskIdx.value === curTaskType.value.count - 1) {
+      if (curTaskTypeIdx.value === tasks.value.length - 1) {
+        completed.value = true;
+        store.accuracies = accuracies.value;
+        emit("next-screen");
+      }
+      else {
+        curTaskIdx.value = 0;
+        curTaskTypeIdx.value++;
+      }
+    }
+    else
+      curTaskIdx.value++;
+  }
+  
 </script>
 
 <template>
-  <div>
-    {{ store.permutation }}
-  </div>
-
-  <div class="nextPage">
-    <div>
-      <button @click="$emit('previous-screen')">Previous</button>
-    </div>
-    <div>
-      <button @click="$emit('next-screen')">Next</button>
-    </div>
+  <div v-if="status === 'loading'">Loading</div>
+  <div v-else-if="error">Error: {{ error }}</div>
+  <div v-else-if="tasks && !completed">
+    <component 
+      :is="curTaskComponent"
+      :key="curTaskKey"
+      :task="curTask" 
+      :task-type="curTaskType.task_type_id"
+      :task-level="curTaskType.level"
+      :base-url="base_url" 
+      @finish="finishTask" 
+    />
   </div>
 </template>
 

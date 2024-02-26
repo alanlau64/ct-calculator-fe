@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-  import { ref, computed, onMounted, watch, defineEmits } from 'vue';
+  import { ref, computed, onMounted, watch } from 'vue';
   import { store } from '../store';
   import { assessments } from '../assessments.json'
 
@@ -22,7 +22,7 @@
     5: "Extremely well"
   }
 
-  const questionsForSkill = computed(() => questions.value[store.skill] || []);
+  const questionsForSkill = computed(() => questions.value[store.skill.toString() as "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"] || []);
 
   onMounted(() => {
     initializeAnswers();
@@ -108,8 +108,12 @@
   }
 
   const handleNext = () => {
-    store.permutation = permutation.value
-    emit('next-screen')
+    if (permutation.value !== undefined) {
+      store.permutation = permutation.value
+      emit('next-screen')
+    } else {
+      alert("Error")
+    }
   }
 </script>
 

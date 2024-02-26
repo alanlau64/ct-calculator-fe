@@ -1,8 +1,9 @@
 <script setup lang="ts">
-  import { defineEmits } from 'vue';
   import { skills } from '../mapping.json'
   import { store } from '../store'
   import SkillComponent from '../components/SkillComponent.vue';
+
+  const emit = defineEmits(['previous-screen', 'next-screen'])
 </script>
 
 <template>
@@ -15,10 +16,10 @@
   </div>
   <div class="nextPage">
     <div>
-      <button @click="$emit('previous-screen')">Previous</button>
+      <button @click="emit('previous-screen')">Previous</button>
     </div>
     <div>
-      <button @click="$emit('next-screen')" :disabled="store.skill !== 0">Next</button>
+      <button @click="emit('next-screen')" :disabled="store.skill === 0">Next</button>
     </div>
   </div>
 </template>
