@@ -61,9 +61,11 @@
       <input type="number" v-model="answer">
     </div>
     <div class="submit">
-      <button @click="submit">Submit</button>
-      <button @click="skipTask">Skip</button>
-      <p class="wrong" v-if="wrongAnswer">Answer is incorrect, please try again</p>
+      <div class="buttons">
+        <button @click="submit">Done</button>
+        <button @click="skipTask">Too Hard</button>
+      </div>
+      <span class="wrong" v-if="wrongAnswer"> Answer is incorrect, please try again or tap <b>Too Hard</b> button to skip</span>
     </div>
   </div>
   
@@ -121,11 +123,16 @@
   }
 
   .submit {
-    margin-top: 10px;
+    margin-top: 30px;
     margin-bottom: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .buttons {
+    display: flex;
     column-gap: 20px;
   }
 

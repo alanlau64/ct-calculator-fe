@@ -71,8 +71,8 @@
     </div>
     </div>
     <div class="submit">
-      <button @click="skipTask">Skip</button>
-      <p class="wrong" v-if="wrongAnswer">Answer is incorrect, please try again</p>
+      <button @click="skipTask">Too Hard</button>
+      <span class="wrong" v-if="wrongAnswer"> Answer is incorrect, please try again or tap <b>Too Hard</b> button to skip</span>
     </div>
   </div>
   

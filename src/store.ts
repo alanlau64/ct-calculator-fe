@@ -4,6 +4,7 @@ interface Store {
   age: number,
   conditionSince?: number,
   skill: number,
+  domain: number[],
   permutation: number,
   accuracies: Object,
   selectedLandmark?: number,
@@ -15,6 +16,7 @@ const getInitState = (): Store => {
   return {
     age: 0,
     skill: 0,
+    domain: [],
     permutation: 0,
     accuracies: {}
   }

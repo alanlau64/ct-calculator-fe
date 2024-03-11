@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { store } from "../store"
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, onBeforeMount, computed } from 'vue'
   import type { Ref } from 'vue'
   import CurrencyTaskComponent from '../components/taskComponents/CurrencyTaskComponent.vue'
   import ClockTaskComponent from '../components/taskComponents/ClockTaskComponent.vue'
@@ -37,7 +37,7 @@
       const data = await response.json()
       base_url.value = data.baseUrl
       tasks.value = data.tasks
-      
+      store.domain = data.domain
     } catch (err) {
       error.value = String(err);
       status.value = 'error'
@@ -46,7 +46,7 @@
     }
   }
 
-  onMounted(() => {
+  onBeforeMount(() => {
     fetchData();
   })
 
