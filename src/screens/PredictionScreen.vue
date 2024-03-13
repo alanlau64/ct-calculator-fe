@@ -11,6 +11,7 @@
   const length = ref(store.selectedLength);
   const prediction = ref({});
   const landmarkText = ref('');
+  const confidence = ref(0);
 
   interface ConditionMap {
     [key: number]: string
@@ -24,7 +25,7 @@
     60: "More than 5 years"
   }
 
-  const disable = computed(() => store.conditionSince === 0  || store.age <= 18 || !store.age || !store.conditionSince)
+  const disable = computed(() => store.conditionSince === 0  || store.age < 18 || !store.age || !store.conditionSince)
 
   const predict = async () => {
     // http://127.0.0.1:3000/predict
@@ -34,7 +35,7 @@
       const response = await fetch("https://ts0100n96d.execute-api.us-east-2.amazonaws.com/predict", {
         method: "POST",
         body: JSON.stringify({
-          permutation: store.permutation,
+          assessmentId: store.assessmentId,
           age: store.age,
           conditionSince: store.conditionSince,
           accuracy: store.accuracies
@@ -46,6 +47,7 @@
       prediction.value = data.prediction;
       landmarkText.value = data.landmarkText;
       curLandmark.value = data.userLandmark;
+      confidence.value = parseFloat(data.confidence)
     } catch (err) {
       status.value = 'err';
     } finally {
@@ -55,7 +57,7 @@
 
   const probability = computed(() => {
     if (prediction.value && store.selectedFrequency && store.selectedLength) {
-      return prediction.value[store.selectedFrequency][store.selectedLength]
+      return (prediction.value as any)[store.selectedFrequency][store.selectedLength]
     }
       
     else
@@ -75,13 +77,13 @@
 
   const progressionText = computed(() => {
     if (probability.value < 0.5) 
-      return "You need additional practice to improve to next landmark";
+      return "You need additional practice to improve to next landmark <br>";
     else if (probability.value < 0.75) 
-      return "Your chance to improve to next landmark: Moderate";
+      return "Your have <b>Moderate</b> chance to improve to next landmark <br>";
     else if (probability.value < 0.9)
-      return "Your possibility to improve to next landmark: High";
+      return "Your have <b>High</b> chance to improve to next landmark <br>";
     else
-      return "Your possibility to improve to next landmark: Very High";
+      return "Your have <b>Very High</b> chance to improve to next landmark <br>";
   })
 
   const startOver = () => {
@@ -93,17 +95,25 @@
 <template>
   <div class="demo-input">
     <div class="age">
-      Your age:&ensp;
-      <input v-model="store.age" type="number" min="0" max="120" placeholder=0 :disabled="status !== 'waiting'">
+      <div>
+        Your age:&ensp;
+        <input v-model="store.age" type="number" min="0" max="120" placeholder=0 :disabled="status !== 'waiting'">
+      </div>
+      <div class="age-slider">
+        <Slider v-model="store.age" :min="18" :max="120" :step="1" :disabled="status !== 'waiting'"/>
+      </div>
     </div>
     <div class="conditon">
       Time since injury:&ensp;
-      <select v-model.number="store.conditionSince" :disabled="status !== 'waiting'">
-        <option disabled selected value=0>Select One</option>
-        <option v-for="(value, key) in conditionMap" :key="key" :value="key">
+      <div class="condition-container">
+        <div 
+          v-for="(value, key) in conditionMap" 
+          class="condition-div" 
+          :class="{'selected-condition': store.conditionSince === key}"
+          @click="status === 'waiting' ? store.conditionSince = key : {}">
           {{ value }}
-        </option>
-      </select>
+        </div>
+      </div>
     </div>
   </div>
   <div class="load">
@@ -111,7 +121,8 @@
       <button @click="predict" :disabled="disable">Calculate</button>
     </div>
     <div v-if="status === 'loading'">
-      Making prediction for you...
+      <div> <ProgressSpinner /> </div>
+      <div> Making prediction for you... </div>
     </div>
   </div>
   <div v-if="status === 'ready'">
@@ -129,7 +140,7 @@
     </div>
     <div class="ability">
       <div>
-        Your current ability level in <b>{{ domains.find(x => x.id == store.domain[0]).layman_name }}</b> is <b>{{ landmarkText[curLandmark] }}</b>. 
+        Your current ability level in <b>{{ domains.find(x => x.id == store.domain[0])?.layman_name }}</b> is <b>{{ landmarkText[curLandmark] }}</b>. 
       </div>
       <ProgressionBarComponent :landmark="curLandmark" :texts="landmarkText" />
     </div>
@@ -139,16 +150,17 @@
       </div>
       <div v-else>
         <div v-if="store.selectedFrequency && store.selectedLength">
-          <div class="foo">
-            <ProgressBar :value="probability * 100" :show-value="true"></ProgressBar>
+          <div>
+            <ProgressBar :value="probability * 100" :show-value="true" :class="progressionClassName"></ProgressBar>
           </div>
           
-          <div style="margin: auto;">
-            {{ progressionText }}
+          <div style="margin: auto;" v-html="progressionText"></div>
+          <div class="con">
+            Our confidency for the prediction is {{ confidence * 100 }}%
           </div>
         </div>
         <div v-else>
-          Please select your desired frequency and practice time!
+          Please select your desired frequency and practice time! <br>
         </div>
       </div>
     </div>
@@ -161,13 +173,36 @@
   
 </template>
 
-<style>
+<style scoped>
   .demo-input {
     padding-top: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     column-gap: 20rem;
+  }
+
+  .age-slider {
+    margin-top: 20px;
+  }
+
+  .condition-container {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .condition-div {
+    border: solid 1px;
+    padding: 5px;
+    border-radius: 25px;
+    font-size: 15px;
+  }
+
+  .selected-condition {
+    background-color: springgreen;
   }
 
   .load {
@@ -202,7 +237,7 @@
 
   .nextPage {
     padding-top: 20px;
-    display: block;
+    display: flex;
     align-items: center;
     justify-content: center;
   }
@@ -225,28 +260,23 @@
     align-items: center;
   }
 
-  /* .prediction-text .foo {
-    min-width: 500px;
-  } */
+  .con {
+    font-size: 10px;
+  }
   
   .p-progressbar {
     min-width: 600px;
+  }
+
+  .gray :deep(.p-progressbar-value) {
     background-color: gray;
   }
 
-  .gray .p-progressbar-value {
-    background-color: gray;
-  }
-
-  .gold .p-progressbar-value {
+  .gold :deep(.p-progressbar-value) {
     background-color: gold;
   }
 
-  .dodgerblue .p-progressbar-value {
+  .dodgerblue :deep(.p-progressbar-value) {
     background-color: dodgerblue;
-  }
-
-  .springgreen .p-progressbar-value {
-    background-color: springgreen;
   }
 </style>

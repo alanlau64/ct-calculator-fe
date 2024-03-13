@@ -20,6 +20,10 @@
     ? props.task.instruction.text : 'placeholder';
   });
 
+  const columns = computed(() => {
+    return props.task?.columns ? props.task.columns : 0;
+  })
+
   const answer = computed(() => {
     return props.task?.matchingSymbol?.imagePath ? props.task.matchingSymbol.imagePath : ""
   })
@@ -73,6 +77,8 @@
   }
 
   const submit = () => {
+    if (!props.task)
+      return;
     let acc = 0;
     if (attempts.value === 0) {
       acc = 0;
@@ -99,7 +105,7 @@
     <div class="answer-symbol-container">
       <img v-if="answer" :src="loadImageUrl(answer)" class="answer-symbol-img" width="200">
     </div>
-    <div class="items-container">
+    <div class="items-container" :style="{'grid-template-columns': 'repeat(' + columns + ', 1fr)'}">
         <div 
         v-for="(item, index) in items" 
         class="item-container"
@@ -111,7 +117,7 @@
     </div>
     <div class="submit">
       <div class="buttons">
-        <button @click="done" v-if="!finished">DONE</button>
+        <button @click="done" v-if="!finished">Done</button>
         <button @click="submit" v-else>Next</button>
         <button @click="skipTask" v-if="!finished">Too Hard</button>
       </div>
@@ -160,7 +166,6 @@
     padding-right: 100px;
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(8, 1fr);
   }
 
   .item-container {

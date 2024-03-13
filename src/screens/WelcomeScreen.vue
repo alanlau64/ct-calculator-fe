@@ -12,7 +12,7 @@
 </div>
 </template>
 
-<style>
+<style scoped>
 .title {
   padding-top: 5%;
   margin: auto;

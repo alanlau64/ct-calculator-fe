@@ -75,6 +75,8 @@
   }
 
   const submit = () => {
+    if (!props.task)
+      return;
     let acc = 0;
     if (attempts.value === 0) {
       acc = 0;

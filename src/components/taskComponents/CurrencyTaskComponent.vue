@@ -81,7 +81,7 @@
         <button @click="skipTask" v-if="!finished">Too Hard</button>
         <button @click="submit" v-else>Next</button>
       </div>
-      <span v-if="wrongAnswer"> Answer is incorrect, please try again or click <b>Too Hard</b> button to skip</span>
+      <span v-if="wrongAnswer"> Answer is incorrect <br> Please <b>try again</b> or click <b>Too Hard</b> button to skip</span>
       <span v-if="finished">Correct. Click <b>Next</b> to continue</span>
     </div>
   </div>
@@ -151,6 +151,7 @@
   .buttons {
     display: flex;
     column-gap: 20px;
+    margin-bottom: 20px;
   }
 
   input {

@@ -6,6 +6,7 @@ interface Store {
   skill: number,
   domain: number[],
   permutation: number,
+  assessmentId: number,
   accuracies: Object,
   selectedLandmark?: number,
   selectedFrequency?: number,
@@ -16,8 +17,9 @@ const getInitState = (): Store => {
   return {
     age: 0,
     skill: 0,
-    domain: [],
+    domain: [0],
     permutation: 0,
+    assessmentId: 0,
     accuracies: {}
   }
 }

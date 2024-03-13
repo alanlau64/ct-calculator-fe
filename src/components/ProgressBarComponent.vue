@@ -6,7 +6,7 @@
   <div class="container">
     <hr class="line" />
     <div class="points-container">
-      <div v-for="(text, index) in texts" :key="index" class="point" :class="{ 'highlight': index === landmark }">
+      <div v-for="(text, index) in texts" :key="index" class="point" :class="{ 'highlight': index === landmark, 'next': index === landmark + 1 }">
         <div class="dot"></div>
         <div class="text">{{ text }}</div>
       </div>
@@ -45,7 +45,7 @@
   .dot {
     height: 20px;
     width: 20px;
-    background-color: blue;
+    background-color: gray;
     border-radius: 50%;
     display: inline-block;
     position: absolute;
@@ -56,9 +56,14 @@
 
   .text {
     margin-top: 25px;
+    width: 200px;
   }
 
   .highlight .dot {
     background-color: red;
+  }
+
+  .next .dot {
+    background-color: blue;
   }
 </style>

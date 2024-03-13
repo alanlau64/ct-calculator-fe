@@ -70,7 +70,7 @@
         v-for="choice in task?.choices"
         :key="choice.id"
         class="choice"
-        :class="{ 'correct': finished && choice.id === parseInt(props.task.answer)}"
+        :class="{ 'correct': finished && choice.id === parseInt(props.task?.answer)}"
         @click="checkAnswer(choice.id)"
       >
         {{ choice.text }}

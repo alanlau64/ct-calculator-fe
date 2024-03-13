@@ -36,14 +36,15 @@
   const fetchData = async () => {
     status.value = "loading";
     try {
-      const response = await fetch('https://ts0100n96d.execute-api.us-east-2.amazonaws.com/rss?permutation_id=' + store.permutation)
+      const response = await fetch('https://ts0100n96d.execute-api.us-east-2.amazonaws.com/rss?permutation_id=' + store.permutation);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const data = await response.json()
-      base_url.value = data.baseUrl
-      tasks.value = data.tasks
-      store.domain = data.domain
+      const data = await response.json();
+      base_url.value = data.baseUrl;
+      tasks.value = data.tasks;
+      store.domain = data.domain;
+      store.assessmentId = data.assessmentId;
     } catch (err) {
       error.value = String(err);
       status.value = 'error'
@@ -123,7 +124,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
   .nextPage {
       padding-top: 20px;
       display: block;

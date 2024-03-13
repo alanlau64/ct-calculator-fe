@@ -72,6 +72,8 @@
   }
 
   const submit = () => {
+    if (!props.task)
+      return;
     let acc = 0;
     if (correctNum.value === props.task.matchingSymbol.number) {
       acc = correctNum.value / attempts.value;

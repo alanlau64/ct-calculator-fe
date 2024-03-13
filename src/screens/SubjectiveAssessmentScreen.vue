@@ -137,7 +137,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
   .nextPage {
       padding-top: 20px;
       display: block;
