@@ -9,6 +9,8 @@
   });
   const emit = defineEmits(['finish']);
 
+  const finished = ref(false)
+
   const imageUrl = computed(() => {
     return props.baseUrl && props.task?.imagePath
     ? props.baseUrl + props.task.imagePath : '';
@@ -35,20 +37,20 @@
   const wrongAnswer = ref(false);
 
   const checkAnswer = () => {
+    attempts.value++;
     const dollarAmount = parseFloat(dollar.value);
     const centAmount = parseFloat(`0.${cent.value}`);
     const solution = parseFloat(props.task?.answer);
-    return dollarAmount + centAmount === solution;
-  }
-
-  const submit = () => {
-    attempts.value++;
-    if (checkAnswer()) {
-
-      emit('finish', props.taskType, props.taskLevel, 1 / attempts.value);
+    if (dollarAmount + centAmount === solution) {
+      finished.value = true;
+      wrongAnswer.value = false;
     } else {
       wrongAnswer.value = true;
     }
+  }
+
+  const submit = () => {
+    emit('finish', props.taskType, props.taskLevel, 1 / attempts.value);
   }
 
   const skipTask = () => {
@@ -68,23 +70,25 @@
     </div>
     <div class="input-area">
       <span>$</span>
-      <input type="text" pattern="^[0-9]{0,2}$" v-model="dollar">
+      <input type="text" pattern="^[0-9]{0,2}$" v-model="dollar" :disabled="finished">
       <span>.</span>
-      <input type="text" pattern="^[0-9]{0,2}$" v-model="cent">
+      <input type="text" pattern="^[0-9]{0,2}$" v-model="cent" :disabled="finished">
       <span>¢</span>
     </div>
     <div class="submit">
       <div class="buttons">
-        <button @click="submit">Done</button>
-        <button @click="skipTask">Too Hard</button>
+        <button @click="checkAnswer" v-if="!finished">Done</button>
+        <button @click="skipTask" v-if="!finished">Too Hard</button>
+        <button @click="submit" v-else>Next</button>
       </div>
-      <span class="wrong" v-if="wrongAnswer"> Answer is incorrect, please try again or tap <b>Too Hard</b> button to skip</span>
+      <span v-if="wrongAnswer"> Answer is incorrect, please try again or click <b>Too Hard</b> button to skip</span>
+      <span v-if="finished">Correct. Click <b>Next</b> to continue</span>
     </div>
   </div>
   
 </template>
 
-<style>
+<style scoped>
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;

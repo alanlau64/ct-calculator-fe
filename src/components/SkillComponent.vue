@@ -1,23 +1,20 @@
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
-  import { store } from '../store'
+  import { ref } from 'vue'
 
-  const props = defineProps(['skill']);
+  const props = defineProps(['skill', 'isSelected']);
+  const emit = defineEmits(['selected'])
   const imgPath = ref(`https://ct-calculator-fe.s3.us-east-2.amazonaws.com/assets/skills/skill${props.skill.id}.png`);
   const boxGroupName = 'skillBoxGroup';
 
+  const select = () => {
+    emit('selected', props.skill?.id)
+  }
 </script>
 
 <template>
-  <div class="box">
+  <div class="box" :class="{ 'selected': isSelected }" @click="select">
     <img :src="imgPath" :alt="skill.description" class="skillImg"/>
     <p> {{ skill.description }} </p>
-    <input 
-      type="radio" 
-      :value="props.skill.id" 
-      v-model="store.skill"
-      :name="boxGroupName" 
-      :disabled="skill.id !== 8"/>
   </div>
 </template>
 
@@ -29,6 +26,11 @@
     justify-content: center;
     border: 1px solid #000;
     padding: 10px;
+  }
+
+  .selected {
+    border: 3px solid blue;
+    background-color: #e6f0ff;
   }
 
   .skillImg {

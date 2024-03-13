@@ -5,6 +5,12 @@
   import CurrencyTaskComponent from '../components/taskComponents/CurrencyTaskComponent.vue'
   import ClockTaskComponent from '../components/taskComponents/ClockTaskComponent.vue'
   import MathWordProblemTaskComponent from '../components/taskComponents/MathWordProblemTaskComponent.vue'
+  import MapTaskComponent from '../components/taskComponents/MapTaskComponent.vue'
+  import SymbolMatchingTaskComponent from '../components/taskComponents/SymbolMatchingTaskComponent.vue'
+  import AlternatingSymbolMatchingTaskComponent from '../components/taskComponents/AlternatingSymbolMatchingTaskComponent.vue'
+  import AlternatingWordOrderingTaskComponent from "../components/taskComponents/AlternatingWordOrderingTaskComponent.vue"
+  import WordOrderingTaskComponent from "../components/taskComponents/WordOrderingTaskComponent.vue"
+  import SequencingTaskComponent from "../components/taskComponents/SequencingTaskComponent.vue"
 
   const emit = defineEmits(['next-screen'])
 
@@ -53,7 +59,13 @@
   const taskComponentMap: TaskComponentMap = {
     43: CurrencyTaskComponent,
     133: ClockTaskComponent,
-    15: MathWordProblemTaskComponent
+    15: MathWordProblemTaskComponent,
+    132: MapTaskComponent,
+    27: SymbolMatchingTaskComponent,
+    215: AlternatingSymbolMatchingTaskComponent,
+    148: AlternatingWordOrderingTaskComponent,
+    206: WordOrderingTaskComponent,
+    237: SequencingTaskComponent
   };
 
   const curTaskTypeIdx = ref(0);

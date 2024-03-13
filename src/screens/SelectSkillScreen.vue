@@ -4,6 +4,10 @@
   import SkillComponent from '../components/SkillComponent.vue';
 
   const emit = defineEmits(['previous-screen', 'next-screen'])
+
+  const selectSkill = (skillId: number) => {
+    store.skill = skillId;
+  }
 </script>
 
 <template>
@@ -11,7 +15,9 @@
     <SkillComponent 
       v-for="skill in skills" 
       :key="skill.id" 
-      :skill="skill">
+      :skill="skill"
+      :is-selected="store.skill === skill.id"
+      @selected="selectSkill">
     </SkillComponent>
   </div>
   <div class="nextPage">
