@@ -79,7 +79,7 @@
     <div class="submit">
       <button @click="skipTask" v-if="!finished">Too Hard</button>
       <button @click="submit" v-else>Next</button>
-      <span class="wrong" v-if="wrongAnswer"> Answer is incorrect, please try again or click <b>Too Hard</b> button to skip</span>
+      <span class="wrong" v-if="wrongAnswer"> Answer is <b>incorrect</b> <br> Please <b>try again</b> or click <b>Too Hard</b> button to skip</span>
       <span class="finishText" v-if="finished"> Correct, click <b>Next</b> to continue </span>
     </div>
   </div>
