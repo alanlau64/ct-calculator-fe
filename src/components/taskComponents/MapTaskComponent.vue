@@ -77,8 +77,10 @@
     </div>
     </div>
     <div class="submit">
-      <button @click="skipTask" v-if="!finished">Too Hard</button>
-      <button @click="submit" v-else>Next</button>
+      <div class="buttons">
+        <button @click="skipTask" v-if="!finished">Too Hard</button>
+        <button @click="submit" v-else>Next</button>
+      </div>
       <span class="wrong" v-if="wrongAnswer"> Answer is <b>incorrect</b> <br> Please <b>try again</b> or click <b>Too Hard</b> button to skip</span>
       <span class="finishText" v-if="finished"> Correct, click <b>Next</b> to continue </span>
     </div>
@@ -121,17 +123,21 @@
   }
 
   .task-img {
-    width: 300px;
+    width: 100%;
   }
 
   .choice {
     border-style: solid;
     border-width: 2px;
     border-radius: 5px;
-    width: 100px;
+    width: 250px;
+    height: 30px;
     margin: auto;
     margin-top: 10px;
     font-size: large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .correct {
@@ -139,13 +145,12 @@
   }
 
   .submit {
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 10px;
     text-align: center;
   }
 
-  input {
-    width: 50px;
+  .buttons {
+    margin-bottom: 10px;
   }
-
 </style>

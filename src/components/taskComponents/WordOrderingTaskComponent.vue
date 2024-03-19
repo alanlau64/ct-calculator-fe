@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, computed, reactive } from 'vue'
+  import { ref, computed } from 'vue'
 
   const props = defineProps({
     task: Object,
@@ -20,67 +20,64 @@
     ? props.task.instruction.text : 'placeholder';
   });
 
-  const answer = computed(() => {
-    return props.task?.matchingSymbol?.imagePath ? props.task.matchingSymbol.imagePath : ""
-  })
-
   const audio = new Audio();
-  const playAudio = () => {
-    audio.src = instructionAudioUrl.value;
+  const playAudio = (src: string) => {
+    audio.src = src;
     audio.play();
   }
 
-  const loadImageUrl = (imagePath: string) => {
-    return props.baseUrl ? props.baseUrl + imagePath : '';
-  }
-
-  const items = computed(() => {
+  const words = computed(() => {
     return props.task?.items ? props.task.items : []
   })
+
+  const shuffle  = (arr) => {
+    let currentIndex = arr.length, randomIndex: number;
+    while (currentIndex > 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
+    }
+    return arr;
+  }
+
+  const shuffledWords = computed(() => {
+    if (!words.value)
+      return []
+    else {
+      return shuffle(Object.assign([], words.value))
+    }
+  })
+
+  const attempts = ref(0);
+  const dragging = ref(0);
   const isCorrect = ref(props.task?.items ? new Array(props.task.items.length).fill(false) : []);
   const isWrong = ref(props.task?.items ? new Array(props.task.items.length).fill(false) : []);
 
-  const attempts = ref(0);
-  const correctNum = ref(0);
-
-  const clickAnswer = (index: number) => {
-    if (isCorrect.value[index] || !finished)
-      return;
-    if (items.value[index] === answer.value) {
-      attempts.value += 1;
-      correctNum.value += 1;
-      isCorrect.value[index] = true
-    }
-    else if (!isWrong.value[index]) {
-      attempts.value += 1;
-      isWrong.value[index] = true;
+  const onDrop = (order: number) => {
+    const curDragging = dragging.value
+    attempts.value++;
+    if (order === curDragging) {
+      isCorrect.value[order-1] = true;
+      dragging.value = 0;
+      if (isCorrect.value.every(x => x === true))
+        done();
+    } else {
+      isWrong.value[curDragging - 1] = true;
       setTimeout(() => {
-        isWrong.value[index] = false;
-      }, 3000);
+        isWrong.value[curDragging - 1] = false;
+      }, 3000)
     }
   }
 
   const done = () => {
     finished.value = true
-    if (correctNum.value == 0) {
-      finishText.value = `Incorrect, click <b>Next</b> to continue`
-    } else if (correctNum.value < props.task?.matchingSymbol?.number) {
-      finishText.value = `Partially Correct, click <b>Next</b> to continue`
-    } else {
-      finishText.value = `Correct, click <b>Next</b> to continue`
-    }
+    finishText.value = `Correct, click <b>Next</b> to continue`
   }
 
   const submit = () => {
-    if (!props.task)
+    if (!props.task || !words)
       return;
-    let acc = 0;
-    if (correctNum.value === props.task.matchingSymbol.number) {
-      acc = correctNum.value / attempts.value;
-    } else {
-      acc = Math.min(correctNum.value / attempts.value, correctNum.value / props.task.matchingSymbol.number)
-    }
-    emit('finish', props.taskType, props.taskLevel, acc)
+    emit('finish', props.taskType, props.taskLevel, attempts.value / words.value.length)
   }
 
   const skipTask = () => {
@@ -92,27 +89,36 @@
 <template>
   <div class="task-container">
     <div class="instruction-container">
-      <button @click="playAudio" class="audio-btn">Play Audio</button>
+      <button @click="playAudio(instructionAudioUrl)" class="audio-btn">Play Audio</button>
       <p class="instruction-text">{{ instructionText }}</p>
     </div>
-    <div class="answer-symbol-container">
-      <img v-if="answer" :src="loadImageUrl(answer)" class="answer-symbol-img" width="200">
-    </div>
-    <div class="items-container">
+    <div class="content-container">
+      <div class="items-container">
         <div 
-        v-for="(item, index) in items" 
-        class="item-container"
-        :class="{ 'is-correct': isCorrect[index], 'is-wrong': isWrong[index] }"
-        :key="index"
-        @click="clickAnswer(index)">
-            <img :src="loadImageUrl(item)" width="40">
+          v-for="(word, index) in shuffledWords"
+          class="word-box"
+          :class="{'correct-word': isCorrect[word.order-1], 'wrong-word': isWrong[word.order-1]}"
+          :draggable="!isCorrect[word.order-1] && !isWrong[word.order-1]"
+          @drag="dragging = word.order">
+          <p>{{ isCorrect[word.order-1] ? "" : word.name }}</p>
         </div>
+      </div>
+      <div class="answer-container">
+        <div
+          v-for="word in words"
+          class="answer-box"
+          :class="{'correct-answer': isCorrect[word.order-1]}"
+          @dragover.prevent
+          @drop.stop.prevent="onDrop(word.order)">
+          <p>{{ isCorrect[word.order-1] ? word.name : "" }}</p>
+        </div>
+      </div>
     </div>
+    
     <div class="submit">
       <div class="buttons">
-        <button @click="done" v-if="!finished">DONE</button>
-        <button @click="submit" v-else>Next</button>
         <button @click="skipTask" v-if="!finished">Too Hard</button>
+        <button @click="submit" v-else>Next</button>
       </div>
       <span v-if="finished" v-html="finishText"></span>
     </div>
@@ -150,32 +156,56 @@
     margin-bottom: 10px;
   }
 
-  .answer-symbol-container {
-    text-align: center;
+  .content-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
 
   .items-container {
-    padding-left: 100px;
-    padding-right: 100px;
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(8, 1fr);
+    margin-right: 100px;
   }
 
-  .item-container {
+  .word-box {
     border: 1px solid #ccc;
     background-color: #f8f8f8;
-    width: 50px;
+    width: 100px;
+    height: 50px;
     margin: auto;
-    text-align: center;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .is-correct {
-    background-color: springgreen;
+  .correct-word {
+    border: none;
+    background-color: transparent;
   }
 
-  .is-wrong {
+  .wrong-word {
     background-color: red;
+  }
+
+  .answer-container {
+    margin-left: 100px;
+  }
+
+  .answer-box {
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    width: 100px;
+    height: 50px;
+    margin: auto;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .correct-answer {
+    background-color: springgreen;
   }
 
   .submit {

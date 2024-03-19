@@ -3,7 +3,7 @@
   import { ref, onBeforeMount, computed } from 'vue'
   import type { Ref } from 'vue'
   import CurrencyTaskComponent from '../components/taskComponents/CurrencyTaskComponent.vue'
-  import ClockTaskComponent from '../components/taskComponents/ClockTaskComponent.vue'
+  import ClockMathTaskComponent from '../components/taskComponents/ClockMathTaskComponent.vue'
   import MathWordProblemTaskComponent from '../components/taskComponents/MathWordProblemTaskComponent.vue'
   import MapTaskComponent from '../components/taskComponents/MapTaskComponent.vue'
   import SymbolMatchingTaskComponent from '../components/taskComponents/SymbolMatchingTaskComponent.vue'
@@ -11,6 +11,7 @@
   import AlternatingWordOrderingTaskComponent from "../components/taskComponents/AlternatingWordOrderingTaskComponent.vue"
   import WordOrderingTaskComponent from "../components/taskComponents/WordOrderingTaskComponent.vue"
   import SequencingTaskComponent from "../components/taskComponents/SequencingTaskComponent.vue"
+  import SpokenWordsComprehensionTaskComponent from "../components/taskComponents/SpokenWordsComprehensionTaskComponent.vue"
 
   const emit = defineEmits(['next-screen'])
 
@@ -59,14 +60,15 @@
 
   const taskComponentMap: TaskComponentMap = {
     43: CurrencyTaskComponent,
-    133: ClockTaskComponent,
+    133: ClockMathTaskComponent,
     15: MathWordProblemTaskComponent,
     132: MapTaskComponent,
     27: SymbolMatchingTaskComponent,
     215: AlternatingSymbolMatchingTaskComponent,
     148: AlternatingWordOrderingTaskComponent,
     206: WordOrderingTaskComponent,
-    237: SequencingTaskComponent
+    237: SequencingTaskComponent,
+    238: SpokenWordsComprehensionTaskComponent
   };
 
   const curTaskTypeIdx = ref(0);
