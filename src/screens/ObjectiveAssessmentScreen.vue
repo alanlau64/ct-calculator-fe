@@ -19,6 +19,8 @@
   import WrittenWordComprehensionTaskComponent from "../components/taskComponents/WrittenWordComprehensionTaskComponent.vue"
   import ActiveSentenceCompletionTaskComponent from "../components/taskComponents/ActiveSentenceCompletionTaskComponent.vue"
   import ShortReadingTaskComponent from "../components/taskComponents/ShortReadingTaskComponent.vue"
+  import WordSpellingTaskComponent from "../components/taskComponents/WordSpellingTaskComponent.vue"
+  import PictureSpellingTaskComponent from "../components/taskComponents/PictureSpellingTaskComponent.vue"
 
   const emit = defineEmits(['next-screen'])
 
@@ -84,7 +86,9 @@
     136: MentalRotationTaskComponent,
     256: WrittenWordComprehensionTaskComponent,
     208: ActiveSentenceCompletionTaskComponent,
-    108: ShortReadingTaskComponent
+    108: ShortReadingTaskComponent,
+    231: WordSpellingTaskComponent,
+    242: PictureSpellingTaskComponent
   };
 
   const curTaskTypeIdx = ref(0);
