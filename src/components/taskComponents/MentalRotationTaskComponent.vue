@@ -11,10 +11,6 @@
 
   const finished = ref(false);
 
-  const imageUrl = computed(() => {
-    return props.baseUrl && props.task?.imagePath
-    ? props.baseUrl + props.task.imagePath : '';
-  });
   const instructionAudioUrl = computed(() => {
     return props.baseUrl && props.task?.instruction?.instructionAudioPath 
     ? props.baseUrl + props.task.instruction.instructionAudioPath : '';
@@ -30,29 +26,18 @@
     audio.play();
   }
 
-  const shuffle = (inArr: any[]) => {
-    let arr = Object.assign([], inArr);
-    let currentIndex = arr.length, randomIndex: number;
-    while (currentIndex > 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-      [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
-    }
-    return arr;
+  const getResourceUrl = (src: string) => {
+    return props.baseUrl ? props.baseUrl + src : "";
   }
-
-  const choices = computed(() => props.task?.choices ? shuffle(props.task.choices) : []);
 
   const attempts = ref(0);
   const wrongAnswer = ref(false);
 
-  const checkAnswer = (choiceId: number) => {
+  const checkAnswer = (choice: boolean) => {
     if (finished.value)
       return;
-    attempts.value++;
-    const solution = parseInt(props.task?.answer);
-    if (choiceId === solution) {
-      finished.value = true;
+    finished.value = true;
+    if (choice === props.task?.answer) {
       wrongAnswer.value = false;
     } else {
       wrongAnswer.value = true;
@@ -60,7 +45,7 @@
   }
 
   const submit = () => {
-    emit('finish', props.taskType, props.taskLevel, 1 / attempts.value);
+    emit('finish', props.taskType, props.taskLevel, wrongAnswer ? 0 : 1);
   }
 
   const skipTask = () => {
@@ -76,26 +61,31 @@
       <p class="instruction-text">{{ instructionText }}</p>
     </div>
     <div class="image-container">
-      <img v-if="imageUrl" :src="imageUrl" class="task-img">
+      <div v-for="stimulus in props.task?.stimulus" >
+        <img :src="getResourceUrl(stimulus.imagePath)" class="task-img" :style="{transform: 'rotate(' + stimulus.imageRotation + 'deg)'}">
+      </div>
     </div>
     <div class="choices">
       <div 
-        v-for="choice in choices"
-        :key="choice.id"
-        class="choice"
-        :class="{ 'correct': finished && choice.id === parseInt(props.task?.answer)}"
-        @click="checkAnswer(choice.id)"
-      >
-        {{ choice.text }}
-    </div>
+        class="choice" 
+        @click="checkAnswer(true)"
+        :class="{'correct': finished && !wrongAnswer && props.task.answer, 'wrong': wrongAnswer && !props.task.answer}">
+        Yes
+      </div>
+      <div 
+        class="choice" 
+        @click="checkAnswer(false)"
+        :class="{'correct': finished && !wrongAnswer && !props.task.answer, 'wrong': wrongAnswer && props.task.answer}">
+        No
+      </div>
     </div>
     <div class="submit">
       <div class="buttons"> 
         <button @click="skipTask" v-if="!finished">Too Hard</button>
         <button @click="submit" v-else>Next</button>
       </div>
-      <span class="wrong" v-if="wrongAnswer"> Answer is <b>incorrect</b> <br> Please <b>try again</b> or click <b>Too Hard</b> button to skip</span>
-      <span class="finishText" v-if="finished"> Correct, click <b>Next</b> to continue </span>
+      <span v-if="wrongAnswer"> Answer is <b>incorrect</b>, click <b>Next</b> to continue </span>
+      <span v-else-if="finished"> Correct, click <b>Next</b> to continue </span>
     </div>
   </div>
   
@@ -132,11 +122,16 @@
   }
 
   .image-container {
-    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 
   .task-img {
-    width: 300px;
+    width: 250px;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
   .choice {
@@ -151,6 +146,10 @@
 
   .correct {
     background-color: springgreen;
+  }
+
+  .wrong {
+    background-color: red;
   }
 
   .submit {

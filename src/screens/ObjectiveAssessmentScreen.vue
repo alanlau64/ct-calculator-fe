@@ -12,6 +12,10 @@
   import WordOrderingTaskComponent from "../components/taskComponents/WordOrderingTaskComponent.vue"
   import SequencingTaskComponent from "../components/taskComponents/SequencingTaskComponent.vue"
   import SpokenWordsComprehensionTaskComponent from "../components/taskComponents/SpokenWordsComprehensionTaskComponent.vue"
+  import ShortStoryTaskComponent from "../components/taskComponents/ShortStoryTaskComponent.vue"
+  // import AuditoryCommandTaskComponent from "../components/taskComponents/AuditoryCommandTaskComponent.vue"
+  import ClockTaskComponent from "../components/taskComponents/ClockTaskComponent.vue"
+  import MentalRotationTaskComponent from "../components/taskComponents/MentalRotationTaskComponent.vue"
 
   const emit = defineEmits(['next-screen'])
 
@@ -68,11 +72,16 @@
     148: AlternatingWordOrderingTaskComponent,
     206: WordOrderingTaskComponent,
     237: SequencingTaskComponent,
-    238: SpokenWordsComprehensionTaskComponent
+    238: SpokenWordsComprehensionTaskComponent,
+    165: ShortStoryTaskComponent,
+    // 212: AuditoryCommandTaskComponent,
+    130: ClockTaskComponent,
+    136: MentalRotationTaskComponent
   };
 
   const curTaskTypeIdx = ref(0);
   const curTaskIdx = ref(0);
+  const taskCnt = ref(0);
 
   const curTaskType = computed(() => tasks.value[curTaskTypeIdx.value] as Task)
   const curTask = computed(() => tasks.value[curTaskTypeIdx.value].tasks[curTaskIdx.value])
@@ -84,16 +93,27 @@
   })
 
   const accuracies: Ref<AccuracyType> = ref({})
-  const finishTask = (taskTypeId: number, taskLevel: number, accuracy: any) => {
+  const finishTask = (taskTypeId: number, taskLevel: number, accuracy: number | number[]) => {
+    console.log(accuracy);
+    
     if (!accuracies.value[taskTypeId]) {
       accuracies.value[taskTypeId] = {};
     }
     if (!accuracies.value[taskTypeId][taskLevel]) {
       accuracies.value[taskTypeId][taskLevel] = []
     }
-    accuracies.value[taskTypeId][taskLevel].push(accuracy);
 
-    if (curTaskIdx.value === curTaskType.value.count - 1) {
+    if (typeof accuracy === "number") {
+      accuracies.value[taskTypeId][taskLevel].push(accuracy);
+      taskCnt.value++;
+    }
+    else {
+      accuracies.value[taskTypeId][taskLevel].push(...accuracy);
+      taskCnt.value += accuracy.length;
+    }
+    console.log(taskCnt.value);
+
+    if (taskCnt.value === curTaskType.value.count) {
       if (curTaskTypeIdx.value === tasks.value.length - 1) {
         completed.value = true;
         store.accuracies = accuracies.value;
@@ -101,6 +121,7 @@
       }
       else {
         curTaskIdx.value = 0;
+        taskCnt.value = 0;
         curTaskTypeIdx.value++;
       }
     }
