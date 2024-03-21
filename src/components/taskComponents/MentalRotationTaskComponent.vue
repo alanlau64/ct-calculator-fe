@@ -69,13 +69,13 @@
       <div 
         class="choice" 
         @click="checkAnswer(true)"
-        :class="{'correct': finished && !wrongAnswer && props.task.answer, 'wrong': wrongAnswer && !props.task.answer}">
+        :class="{'correct': finished && !wrongAnswer && props.task?.answer, 'wrong': wrongAnswer && !props.task?.answer}">
         Yes
       </div>
       <div 
         class="choice" 
         @click="checkAnswer(false)"
-        :class="{'correct': finished && !wrongAnswer && !props.task.answer, 'wrong': wrongAnswer && props.task.answer}">
+        :class="{'correct': finished && !wrongAnswer && !props.task?.answer, 'wrong': wrongAnswer && props.task?.answer}">
         No
       </div>
     </div>

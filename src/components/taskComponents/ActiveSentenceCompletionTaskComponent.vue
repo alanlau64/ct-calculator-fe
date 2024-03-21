@@ -95,12 +95,12 @@
     <div class="content-container">
       <div class="answer-container">
         <div
-          v-for="(segment, index) in props.task.segments"
+          v-for="(segment, index) in props.task?.segments"
           class="answer-text"
-          :class="{'answer-box': index === props.task.missingSegment}"
+          :class="{'answer-box': index === props.task?.missingSegment}"
           @dragover.prevent
           @drop.stop.prevent="onDrop()">
-          <p>{{ finished ? segment.text : index === props.task.missingSegment ? "" : segment.text }}</p>
+          <p>{{ finished ? segment.text : index === props.task?.missingSegment ? "" : segment.text }}</p>
         </div>
       </div>
       <div class="items-container">

@@ -43,7 +43,7 @@
   }
 
   const choices = computed(() => {
-    if (!props.task.choices)
+    if (!props.task?.choices)
       return [];
     else {
       return shuffle(props.task.choices);

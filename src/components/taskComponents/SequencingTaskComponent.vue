@@ -30,7 +30,8 @@
     return props.task?.items ? props.task.items : []
   })
 
-  const shuffle  = (arr) => {
+  const shuffle = (inArr: any[]) => {
+    let arr = Object.assign([], inArr);
     let currentIndex = arr.length, randomIndex: number;
     while (currentIndex > 0) {
       randomIndex = Math.floor(Math.random() * currentIndex);
@@ -44,7 +45,7 @@
     if (!words.value)
       return []
     else {
-      return shuffle(Object.assign([], words.value))
+      return shuffle(words.value);
     }
   })
 

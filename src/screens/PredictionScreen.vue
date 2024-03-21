@@ -122,7 +122,7 @@
     </div>
     <div v-if="status === 'loading'">
       <div> <ProgressSpinner /> </div>
-      <div> Making prediction for you... </div>
+      <div> Preparing predictions for you... </div>
     </div>
   </div>
   <div v-if="status === 'ready'">
@@ -140,7 +140,7 @@
     </div>
     <div class="ability">
       <div>
-        Your current ability level in <b>{{ domains.find(x => x.id == store.domain[0])?.layman_name }}</b> is <b>{{ landmarkText[curLandmark] }}</b>. 
+        Your current ability level in <b>{{ domains.find(x => x.id == store.domain[0])?.layman_name }}</b> is <br> <b>{{ landmarkText[curLandmark] }}</b>. 
       </div>
       <ProgressionBarComponent :landmark="curLandmark" :texts="landmarkText" />
     </div>
@@ -151,12 +151,12 @@
       <div v-else>
         <div v-if="store.selectedFrequency && store.selectedLength">
           <div>
-            <ProgressBar :value="probability * 100" :show-value="true" :class="progressionClassName"></ProgressBar>
+            <ProgressBar :value="probability * 100" :show-value="false" :class="progressionClassName"></ProgressBar>
           </div>
           
           <div style="margin: auto;" v-html="progressionText"></div>
           <div class="con">
-            Our confidency for the prediction is {{ confidence * 100 }}%
+            Our confidence for the prediction is {{ confidence * 100 }}%
           </div>
         </div>
         <div v-else>

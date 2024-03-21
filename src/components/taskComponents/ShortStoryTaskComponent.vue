@@ -44,7 +44,7 @@
   const ready = ref(false);
   const wrongAnswer = ref(false);
   const curQuestionIdx = ref(0);
-  const accuracy = [];
+  const accuracy : number[] = [];
 
   const question = computed(() => props.task?.questions ? props.task.questions[curQuestionIdx.value].question : "" )
   const answer = computed(() => props.task?.questions ? props.task.questions[curQuestionIdx.value].answer : "" )

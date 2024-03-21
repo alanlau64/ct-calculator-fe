@@ -119,7 +119,7 @@
       <button @click="playAudio(getResourceUrl(props.task?.item?.soundPath))">Play Again</button>
       <div class="answer-container">
         <div
-          v-for="(letter, index) in props.task.itemLetters"
+          v-for="(letter, index) in props.task?.itemLetters"
           class="answer-box"
           @dragover.prevent
           @drop.stop.prevent="onDrop(index)">

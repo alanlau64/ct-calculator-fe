@@ -113,7 +113,7 @@
           {{ isCorrectChoice[index] ? "" : word.letter }}
         </div>
       </div>
-      <img :src="getResourceUrl(props.task.item.imagePath)" style="width: 300px;"/>
+      <img :src="getResourceUrl(props.task?.item?.imagePath)" style="width: 300px;"/>
       <div class="answer-container">
         <div
           v-for="(letter, index) in props.task?.itemLetters"
