@@ -24,6 +24,19 @@
     ? props.task.instruction.text : 'placeholder';
   });
 
+  const shuffle = (inArr: any[]) => {
+    let arr = Object.assign([], inArr);
+    let currentIndex = arr.length, randomIndex: number;
+    while (currentIndex > 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
+    }
+    return arr;
+  }
+
+  const choices = computed(() => props.task?.choices ? shuffle(props.task.choices) : []);
+
   const audio = new Audio();
   const playAudio = () => {
     audio.src = instructionAudioUrl.value;
@@ -67,7 +80,7 @@
     </div>
     <div class="choices">
       <div 
-        v-for="choice in task?.choices"
+        v-for="choice in choices"
         :key="choice.id"
         class="choice"
         :class="{ 'correct': finished && choice.id === parseInt(props.task?.answer)}"

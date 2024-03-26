@@ -9,6 +9,10 @@
             "description": "Writing"
         },
         {
+            "id": 3,
+            "description": "Remembering spoken information"
+        },
+        {
             "id": 4,
             "description": "Listening & understanding"
         },
@@ -18,7 +22,7 @@
         },
         {
             "id": 6,
-            "description": "Remembering"
+            "description": "Remembering visual information"
         },
         {
             "id": 7,

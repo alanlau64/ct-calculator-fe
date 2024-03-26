@@ -53,13 +53,7 @@
         else 
           return 23;
       case 3:
-        const ans_slice3 = answers.value.slice(4)
-        if (ans_slice3.every(answer => parseInt(answer) === 5))
-          return 36;
-        else if (ans_slice3.every(answer => parseInt(answer) < 5))
-          return 25;
-        else
-          return 35;
+        return 20;
       case 4:
         if (answers.value.every(answer => parseInt(answer) === 5))
           return 8;
@@ -75,10 +69,7 @@
         else 
           return 11;
       case 6:
-        if (answers.value.every(answer => parseInt(answer) < 5))
-          return 19;
-        else 
-          return 20;
+        return 19;
       case 7:
         if (answers.value.every(answer => parseInt(answer) === 5))
           return 15;

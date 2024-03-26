@@ -16,11 +16,9 @@
       "In the last week, <b>how well could you write under time pressure?</b>"
     ],
     "3": [
-      "In the last week, <b>how well could you think of the right word?</b>",
-      "In the last week, <b>how well could you speak words aloud?</b>",
-      "In the last week, <b>how well could you speak numbers aloud?</b>",
-      "In the last week, <b>how well could you speak in sentences?</b>",
-      "In the last week, <b>how well could you speak clearly?</b>"
+      "In the last week, <b>how well could you remember words you just heard?</b>",
+      "In the last week, <b>how well could you remember instructions you just heard?</b>",
+      "In the last week, <b>how well could you remember a story you just heard?</b>"
     ],
     "4": [
       "In the last week, <b>how well could you understand single words?</b>",
@@ -37,9 +35,6 @@
       "In the last week, <b>how well could you focus after an interruption?</b>"
     ],
     "6": [
-      "In the last week, <b>how well could you remember words you just heard?</b>",
-      "In the last week, <b>how well could you remember instructions you just heard?</b>",
-      "In the last week, <b>how well could you remember a story you just heard?</b>",
       "In the last week, <b>how well could you remember a picture you just saw?</b>"
     ],
     "7": [

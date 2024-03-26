@@ -21,6 +21,11 @@
   import ShortReadingTaskComponent from "../components/taskComponents/ShortReadingTaskComponent.vue"
   import WordSpellingTaskComponent from "../components/taskComponents/WordSpellingTaskComponent.vue"
   import PictureSpellingTaskComponent from "../components/taskComponents/PictureSpellingTaskComponent.vue"
+  import PatternRepeatTaskComponent from "../components/taskComponents/PatternRepeatTaskComponent.vue"
+  import PictureNbackMemoryTaskComponent from "../components/taskComponents/PictureNbackMemoryTaskComponent.vue"
+  import PictureMemoryTaskComponent from "../components/taskComponents/PictureMemoryTaskComponent.vue"
+  import VoicemailTaskComponent from "../components/taskComponents/VoicemailTaskComponent.vue"
+  import SoundMemoryTaskComponent from "../components/taskComponents/SoundMemoryTaskComponent.vue"
 
   const emit = defineEmits(['next-screen'])
 
@@ -88,7 +93,12 @@
     208: ActiveSentenceCompletionTaskComponent,
     108: ShortReadingTaskComponent,
     231: WordSpellingTaskComponent,
-    242: PictureSpellingTaskComponent
+    242: PictureSpellingTaskComponent,
+    87: PatternRepeatTaskComponent,
+    229: PictureNbackMemoryTaskComponent,
+    207: PictureMemoryTaskComponent,
+    166: VoicemailTaskComponent,
+    26: SoundMemoryTaskComponent
   };
 
   const curTaskTypeIdx = ref(0);
