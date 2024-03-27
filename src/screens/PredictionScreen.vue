@@ -77,13 +77,13 @@
 
   const progressionText = computed(() => {
     if (probability.value < 0.5) 
-      return "You need additional practice to improve to next landmark <br>";
+      return "You need additional practice";
     else if (probability.value < 0.75) 
-      return "Your have <b>Moderate</b> chance to improve to next landmark <br>";
+      return "Probability: <b>Moderate</b>";
     else if (probability.value < 0.9)
-      return "Your have <b>High</b> chance to improve to next landmark <br>";
+      return "Probability: <b>High</b>";
     else
-      return "Your have <b>Very High</b> chance to improve to next landmark <br>";
+      return "Probability: <b>Very High</b>";
   })
 
   const startOver = () => {
@@ -107,11 +107,11 @@
       Time since injury:&ensp;
       <div class="condition-container">
         <div 
-          v-for="(value, key) in conditionMap" 
+          v-for="key in Object.keys(conditionMap).map(Number).sort((a, b) => a - b)"
           class="condition-div" 
           :class="{'selected-condition': store.conditionSince === key}"
           @click="status === 'waiting' ? store.conditionSince = key : {}">
-          {{ value }}
+          {{ conditionMap[key] }}
         </div>
       </div>
     </div>
@@ -126,6 +126,12 @@
     </div>
   </div>
   <div v-if="status === 'ready'">
+    <div class="ability">
+      <div>
+        Domain: <b>{{ domains.find(x => x.id == store.domain[0])?.layman_name }}</b>
+      </div>
+      <ProgressionBarComponent :landmark="curLandmark" :texts="landmarkText" />
+    </div>
     <div class="parameter-input">
       <div class="sub-parameter-input">
         <input v-model="store.selectedFrequency" type="number" min="1" max="7" step="1" placeholder="1"/>(days per week)
@@ -138,23 +144,15 @@
         Desired total practice time 
       </div>
     </div>
-    <div class="ability">
-      <div>
-        Your current ability level in <b>{{ domains.find(x => x.id == store.domain[0])?.layman_name }}</b> is <br> <b>{{ landmarkText[curLandmark] }}</b>. 
-      </div>
-      <ProgressionBarComponent :landmark="curLandmark" :texts="landmarkText" />
-    </div>
+
     <div class="prediction-text">
       <div v-if="!prediction">
         Sorry, we do not have enough data for your prediction.
       </div>
       <div v-else>
         <div v-if="store.selectedFrequency && store.selectedLength">
-          <div>
-            <ProgressBar :value="probability * 100" :show-value="false" :class="progressionClassName"></ProgressBar>
-          </div>
-          
           <div style="margin: auto;" v-html="progressionText"></div>
+          <ProgressBar :value="probability * 100" :show-value="false" :class="progressionClassName"></ProgressBar>
           <div class="con">
             Our confidence for the prediction is {{ confidence * 100 }}%
           </div>
@@ -189,7 +187,7 @@
   .condition-container {
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     text-align: center;
     margin-top: 10px;
   }
@@ -206,7 +204,7 @@
   }
 
   .load {
-    padding-top: 2rem;
+    padding-top: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -216,8 +214,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    column-gap: 20rem;
-    width: 100em;
+    column-gap: 200px;
+    width: 80%;
     margin: auto;
     margin-bottom: 20px;
   }
@@ -232,18 +230,12 @@
 
   .sub-parameter-input > .p-slider {
     flex-grow: 1;
-    min-width: 30em;
-  }
-
-  .nextPage {
-    padding-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-width: 500px;
   }
 
   .ability {
-    margin-top: 4em;
+    margin-top: 20px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -252,7 +244,6 @@
   }
 
   .prediction-text {
-    width: 1000px;
     margin: auto;
     margin-top: 4em;
     display: flex;
@@ -278,5 +269,12 @@
 
   .dodgerblue :deep(.p-progressbar-value) {
     background-color: dodgerblue;
+  }
+
+  .nextPage {
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

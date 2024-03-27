@@ -118,7 +118,7 @@
       </div>
     </div>
   </div>
-  <div class="nextPage">
+  <div class="next-page">
     <div>
       <button @click="handlePrevious">Previous</button>
     </div>
@@ -129,9 +129,9 @@
 </template>
 
 <style scoped>
-  .nextPage {
+  .next-page {
       padding-top: 20px;
       display: block;
       text-align: center;
-    }
+  }
 </style>

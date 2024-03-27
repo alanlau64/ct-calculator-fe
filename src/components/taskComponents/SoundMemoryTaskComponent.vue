@@ -64,7 +64,6 @@
       playing.value = index;
       attempts.value += 1;
       if (items.value[pairing2nd.value] !== items.value[index]) {
-        console.log('here')
         ready.value = false;
         setTimeout(() => {
           pairing2nd.value = -1;
@@ -72,7 +71,6 @@
           ready.value = true;
         }, 2000);
       } else {
-        console.log('there')
         isCorrect.value[pairing2nd.value] = true;
         isCorrect.value[playing.value] = true;
         pairing2nd.value = -1;
