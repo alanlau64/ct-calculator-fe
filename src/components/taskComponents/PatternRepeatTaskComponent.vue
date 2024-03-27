@@ -42,7 +42,7 @@
   const ready = ref(false);
 
   const playPattern = async (replay: boolean) => {
-    let intervId: NodeJS.Timer;
+    let intervId: NodeJS.Timer | undefined = undefined;
     const play = () => {
       try {
         location.value = actions.value[curIdx.value++].location + 1;
@@ -54,7 +54,7 @@
         clearInterval(intervId);
         curIdx.value = correctNum.value;
         location.value = 0;
-        intervId = null;
+        intervId = undefined;
         ready.value = true;
       }
     }

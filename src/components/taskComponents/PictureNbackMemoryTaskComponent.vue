@@ -46,7 +46,7 @@
 
   const playPattern = async () => {
     start.value = false;
-    let intervId: NodeJS.Timer;
+    let intervId: NodeJS.Timer | undefined = undefined;
     const play = () => {
       flyOut.value = true;
       if (answer.value.includes(curIdx.value) && !isCorrect)
@@ -83,14 +83,14 @@
 
   const clickAnswer = (index: number) => {
     console.log('clicked');
-    if (isCorrect.value[index] || isWrong.value[index])
+    if (isCorrect.value || isWrong.value)
       return;
     if (answer.value.includes(index)) {
       attempts.value += 1;
       correctNum.value += 1;
       isCorrect.value = true;
     }
-    else if (!isWrong.value[index]) {
+    else if (!isWrong.value) {
       attempts.value += 1;
       isWrong.value = true;
     }

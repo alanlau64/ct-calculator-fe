@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref, computed, onMounted } from 'vue'
+  import { ref, computed, Ref, ComputedRef } from 'vue'
 
   const props = defineProps({
     task: Object,
@@ -20,17 +20,13 @@
     ? props.task.instruction.text : 'placeholder';
   });
 
-  const getResourceUrl = (src: string) => {
-    return props.baseUrl ? props.baseUrl + src : "";
-  }
-
   const audio = new Audio();
   const playAudio = (src: string) => {
     audio.src = src;
     audio.play();
   }
 
-  const shuffle  = (inArr: any[]) => {
+  const shuffle = (inArr: any[]) => {
     let arr = Object.assign([], inArr);
     let currentIndex = arr.length, randomIndex: number;
     while (currentIndex > 0) {

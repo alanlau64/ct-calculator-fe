@@ -60,7 +60,7 @@
   const isWrong = ref(choices.value ? new Array(choices.value.length).fill(false) : []);
 
   const onDrop = (boxId: number) => {
-    if (isCorrectAnswer[boxId])
+    if (isCorrectAnswer.value[boxId])
       return;
     const curDragging = dragging.value
     attempts.value++;
